@@ -52,6 +52,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
     <Reference Include="umbraco">
       <HintPath>..\..\packages\UmbracoCms.Core.4.8.0\lib\umbraco.dll</HintPath>
       <Private>False</Private>
@@ -64,6 +65,7 @@
   <ItemGroup>
     <Compile Include="DataEditor.cs" />
     <Compile Include="DataType.cs" />
+    <Compile Include="JsonToXmlData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,8 +77,12 @@
       <Name>OpenGraph-Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\Tools\NuGet\NuGet.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

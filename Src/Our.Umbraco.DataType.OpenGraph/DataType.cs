@@ -1,6 +1,6 @@
 ﻿using System;
 using umbraco.cms.businesslogic.datatype;
-using umbraco.editorControls.SettingControls;
+using umbraco.interfaces;
 
 namespace Our.Umbraco.DataType.OpenGraph
 {
@@ -10,18 +10,14 @@ namespace Our.Umbraco.DataType.OpenGraph
 
 		private DataEditor m_Control = new DataEditor();
 
+		private IData m_Data;
+
 		public DataType()
 		{
-			// set the render control as the placeholder
 			this.RenderControl = this.m_Control;
 
-			// assign the initialise event for the control
 			this.m_Control.Init += new EventHandler(this.m_Control_Init);
 
-			// assign the value to the control
-			this.m_Control.PreRender += new EventHandler(this.m_Control_PreRender);
-
-			// assign the save event for the data-type/editor
 			this.DataEditorControl.OnSave += new AbstractDataEditorControl.SaveEventHandler(this.DataEditorControl_OnSave);
 		}
 
@@ -41,18 +37,25 @@ namespace Our.Umbraco.DataType.OpenGraph
 			}
 		}
 
-		//[DataEditorSetting("Default Location", defaultValue = Constants.DefaultCoordinates, type = typeof(TextField))]
-		//public string DefaultLocation { get; set; }
+		public override IData Data
+		{
+			get
+			{
+				if (this.m_Data == null)
+				{
+					this.m_Data = new JsonToXmlData(this);
+				}
+
+				return this.m_Data;
+			}
+		}
 
 		private void m_Control_Init(object sender, EventArgs e)
 		{
-			// get the options from the Prevalue Editor.
-			this.m_Control.SerializedValue = "";
-		}
-
-		private void m_Control_PreRender(object sender, EventArgs e)
-		{
-			this.m_Control.SerializedValue = this.Data.Value != null ? this.Data.Value.ToString() : string.Empty;
+			if (this.Data.Value != null)
+			{
+				this.m_Control.SerializedValue = this.Data.Value.ToString();
+			}
 		}
 
 		private void DataEditorControl_OnSave(EventArgs e)
