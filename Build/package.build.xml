@@ -13,10 +13,10 @@
 
 	<!-- PROPERTIES -->
 	<PropertyGroup>
-		<VersionMajor>0</VersionMajor>
-		<VersionMinor>1</VersionMinor>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>0</VersionMinor>
 		<VersionPatch>0</VersionPatch>
-		<VersionSuffix>-alpha</VersionSuffix>
+		<VersionSuffix>-beta</VersionSuffix>
 		<UmbracoVersion>4.8.0</UmbracoVersion>
 	</PropertyGroup>
 
@@ -25,6 +25,7 @@
 		<BuildDir>$(MSBuildProjectDirectory)\Temp</BuildDir>
 		<PackageDir>$(MSBuildProjectDirectory)</PackageDir>
 		<ProjectDir>$(RootDir)\Src\Our.Umbraco.DataType.OpenGraph</ProjectDir>
+		<ILMergeExe>$(RootDir)\Tools\ILMerge.exe</ILMergeExe>
 	</PropertyGroup>
 
 	<!-- TARGETS -->
@@ -53,10 +54,19 @@
 		<MSBuild Projects="$(RootDir)\Our.Umbraco.DataType.OpenGraph.sln" Properties="Configuration=Release" />
 	</Target>
 
-	<!-- PREPARE FILES -->
-	<Target Name="PrepairFiles" DependsOnTargets="Compile">
+	<!-- MERGE DLLS -->
+	<Target Name="MergeDlls" DependsOnTargets="Compile">
 		<ItemGroup>
-			<BinFiles Include="$(ProjectDir)\Bin\Release\*.dll" />
+			<Dlls Include="$(ProjectDir)\bin\Release\Our.Umbraco.DataType.OpenGraph.dll" />
+			<Dlls Include="$(ProjectDir)\bin\Release\OpenGraph-Net.dll" />
+		</ItemGroup>
+		<Exec Command="$(ILMergeExe) /ndebug /internalize /out:$(ProjectDir)\bin\Release\Our.Umbraco.DataType.OpenGraph.dll @(Dlls, ' ')" />
+	</Target>
+
+	<!-- PREPARE FILES -->
+	<Target Name="PrepairFiles" DependsOnTargets="MergeDlls">
+		<ItemGroup>
+			<BinFiles Include="$(ProjectDir)\bin\Release\Our.Umbraco.DataType.OpenGraph.dll" />
 			<PackageFile Include="$(PackageDir)\package.xml" />
 		</ItemGroup>
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildDir)\bin" />
