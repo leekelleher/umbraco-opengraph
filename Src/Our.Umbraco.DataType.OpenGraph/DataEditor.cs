@@ -129,6 +129,18 @@ namespace Our.Umbraco.DataType.OpenGraph
 			this.Controls.Add(this.HiddenValue);
 		}
 
+		public string GetSavedValue()
+		{
+			if (Page.IsPostBack && string.IsNullOrWhiteSpace(this.Url.Text))
+			{
+				this.Preview.Text = string.Empty;
+
+				return string.Empty;
+			}
+
+			return this.SerializedValue;
+		}
+
 		private void LoadPreview(OpenGraphModel model)
 		{
 			var html = @"

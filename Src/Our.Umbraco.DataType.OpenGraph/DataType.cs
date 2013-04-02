@@ -60,7 +60,7 @@ namespace Our.Umbraco.DataType.OpenGraph
 
 		private void DataEditorControl_OnSave(EventArgs e)
 		{
-			this.Data.Value = this.m_Control.SerializedValue;
+			this.Data.Value = this.m_Control.GetSavedValue();
 		}
 	}
 }
