@@ -25,7 +25,7 @@
 		<BuildDir>$(MSBuildProjectDirectory)\Temp</BuildDir>
 		<PackageDir>$(MSBuildProjectDirectory)</PackageDir>
 		<ProjectDir>$(RootDir)\Src\Our.Umbraco.DataType.OpenGraph</ProjectDir>
-		<ILMergeExe>$(RootDir)\Tools\ILMerge.exe</ILMergeExe>
+		<ILMergeExe>$(RootDir)\packages\ilmerge.2.13.0307\ILMerge.exe</ILMergeExe>
 	</PropertyGroup>
 
 	<!-- TARGETS -->
@@ -67,9 +67,11 @@
 	<Target Name="PrepairFiles" DependsOnTargets="MergeDlls">
 		<ItemGroup>
 			<BinFiles Include="$(ProjectDir)\bin\Release\Our.Umbraco.DataType.OpenGraph.dll" />
+			<DebugFiles Include="$(ProjectDir)\bin\Release\Our.Umbraco.DataType.OpenGraph.pdb" />
 			<PackageFile Include="$(PackageDir)\package.xml" />
 		</ItemGroup>
 		<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(BuildDir)\bin" />
+		<Copy SourceFiles="@(DebugFiles)" DestinationFolder="$(BuildDir)\bin" Condition="'$(VersionSuffix)' != ''" />
 		<Copy SourceFiles="@(PackageFile)" DestinationFolder="$(BuildDir)" />
 	</Target>
 
