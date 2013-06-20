@@ -26,7 +26,11 @@
 	<Macros />
 	<DictionaryItems />
 	<Languages />
-	<DataTypes />
+	<DataTypes>
+		<DataType Name="Open Graph" Id="8df8a0ee-496f-4268-81da-e937e376cdbe" Definition="454013a1-e5fe-4c17-907a-922bd17eb788">
+			<PreValues />
+		</DataType>
+	</DataTypes>
 	<Actions />
 	<control />
 	<files />
